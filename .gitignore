@@ -9,3 +9,5 @@
 *.xml
 *.parquet
 *.tbi
+*.html
+*.joblib
