@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import prince 
 import os
 
-output_dir = 'results/mca/'
+output_dir = 'results/mca_2024/'
 os.makedirs(output_dir, exist_ok=True)
 print(f"All results will be saved to: {output_dir}")
 
 print("\n--- Step 1: Loading Data ---")
-df = pd.read_parquet('clinvar_parquet/')
+df = pd.read_parquet('clinvar_202406_parquet/')
 print(f"Successfully loaded {len(df)} records.")
 
 print("\n--- Step 2: Cleaning and Selecting Features ---")
