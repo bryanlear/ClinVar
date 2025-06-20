@@ -11,7 +11,7 @@ model_path = 'mca_model_2024.joblib'
 mca = joblib.load(model_path)
 print("Model loaded successfully.")
 
-df_mca = pd.read_parquet('clinvar_202406_parquet/')[['ClinicalSignificance', 'ReviewStatus', 'VariantType', 'Chromosome']].fillna('Missing')
+df_mca = pd.read_parquet('clinvar_parquet/')[['ClinicalSignificance', 'ReviewStatus', 'VariantType', 'Chromosome']].fillna('Missing')
 
 output_dir = 'results/mca_2024/'
 os.makedirs(output_dir, exist_ok=True)
