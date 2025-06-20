@@ -6,7 +6,7 @@ import os
 print("--- FITTING MCA MODEL (RUN ONCE) ---")
 
 print("Loading Data...")
-df = pd.read_parquet('clinvar_parquet/')
+df = pd.read_parquet('clinvar_2024-06_parquet/')
 
 print("Cleaning Features...")
 features_for_mca = ['ClinicalSignificance', 'ReviewStatus', 'VariantType', 'Chromosome']
@@ -20,7 +20,7 @@ mca = prince.MCA(n_components=n_components, n_iter=3, random_state=42)
 mca = mca.fit(df_mca)
 print("MCA fitting complete.")
 
-model_path = 'mca_model.joblib'
+model_path = 'mca_model_2024.joblib'
 joblib.dump(mca, model_path)
 print(f"Fitted MCA model saved to: {model_path}")
 
