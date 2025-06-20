@@ -7,7 +7,7 @@
 
 *.gz
 *.xml
-*.parquet
+#*.parquet
 *.tbi
 *.html
 *.joblib
