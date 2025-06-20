@@ -5,9 +5,9 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 import os
 
 # --- File paths ---
-output_dir = 'results/mca_latest/'
+output_dir = 'results/mca_2024'
 scores_path = os.path.join(output_dir, 'transformed_principal_coordinates.parquet')
-original_data_path = 'clinvar_parquet/'
+original_data_path = 'clinvar_202406_parquet/'
 
 # --- Load MCA scores ---
 scores = pd.read_parquet(scores_path)

@@ -7,10 +7,10 @@ import os
 import glob
 
 # --- File paths ---
-output_dir = 'results/regularized_lda_latest/'
+output_dir = 'results/regularized_lda_2024/'
 os.makedirs(output_dir, exist_ok=True)
-data_path = 'clinvar_parquet/'
-
+data_path = 'clinvar_202406_parquet/'
+ 
 # --- Read and concatenate all parquet files ---
 parquet_files = glob.glob(os.path.join(data_path, '*.parquet'))
 df = pd.concat([pd.read_parquet(f) for f in parquet_files], ignore_index=True)

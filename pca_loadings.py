@@ -4,7 +4,7 @@ import seaborn as sns
 import os
 
 # --- File paths ---
-output_dir = 'results/mca_latest/'
+output_dir = 'results/mca_2024/'
 coords_path = os.path.join(output_dir, 'mca_column_coordinates.csv')
 eigen_path = os.path.join(output_dir, 'mca_eigenvalues.csv')
 
