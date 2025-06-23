@@ -132,7 +132,7 @@ Table with variant reclassified 2020 vs. 2025 (only a few are shown):
 
 <p align="center">
   <img src="results/reclassification/visualizations/umap_basic.png" alt="UMAP plot of reclassification" width="600" />
-  <img src="results/reclassification/visualizations/umap_density.png.png" alt="Density plot of reclassification" width="600" />
+  <img src="results/reclassification/visualizations/umap_density.png" alt="Density plot of reclassification" width="600" />
 </p>
 
 Density Plot: ***Uniform Manifold Approximation and Projection (UMAP)*** is a dimensionality reduction technique that is used to visualize high-dimensional data in a lower-dimensional space. It is a non-linear technique that is able to preserve the local structure of the data, meaning that points that are close to each other in the high-dimensional space will also be close to each other in the lower-dimensional space.
