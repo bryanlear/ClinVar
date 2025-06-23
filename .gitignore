@@ -2,6 +2,7 @@
 
 data/raw/datasets/
 data/processed/
+data/fitted_models
 
 
 
@@ -9,7 +10,7 @@ data/processed/
 
 *.gz
 *.xml
-*.parquet
 *.tbi
 *.html
 *.joblib
+*.json
