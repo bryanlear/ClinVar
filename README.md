@@ -39,7 +39,8 @@ Download two different snapshots of the ClinVar VCF data for multiple timestamps
 - .vcf.gz.tbi = index for fast access
 
 -   **Latest Version (2025):**
-    ```bash (Linux)
+-   Linux:
+    ```bash 
     wget -O clinvar_latest.vcf.gz [https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz](https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz)
     wget -O clinvar_latest.vcf.gz.tbi [https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.tbi](https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.tbi)
     ```
@@ -49,6 +50,7 @@ Download two different snapshots of the ClinVar VCF data for multiple timestamps
     curl -o clinvar_2025-01-06.vcf.gz https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2025/clinvar_20250601.vcf.gz
     curl -o clinvar_2025-01-06.vcf.gz.tbi https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2025/clinvar_20250601.vcf.gz.tbi
     ```  
+    
 -   **Version 2024:**
     ```bash
     curl -o clinvar_2024-01-07.vcf.gz https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2024/clinvar_20240107.vcf.gz
@@ -64,11 +66,13 @@ Download two different snapshots of the ClinVar VCF data for multiple timestamps
     curl -o clinvar_2022-01-09.vcf.gz https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2022/clinvar_20220109.vcf.gz
     curl -o clinvar_2022-01-09.vcf.gz.tbi https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2022/clinvar_20220109.vcf.gz.tbi
     ```   
+
 -   **Version 2021:**
       ```bash
     curl -o clinvar_2021-01-10.vcf.gz https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2021/clinvar_20210110.vcf.gz
     curl -o clinvar_2021-01-10.vcf.gz.tbi https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2021/clinvar_20210110.vcf.gz.tbi
     ```   
+
 -   **Version 2020:**
       ```bash
     curl -o clinvar_2020-01-06.vcf.gz https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2020/clinvar_20200106.vcf.gz
@@ -85,3 +89,21 @@ python 1_parse_vcf_cyvcf2.py data/raw/datasets/2022/clinvar_2022-01-09.vcf.gz cl
 python 1_parse_vcf_cyvcf2.py data/raw/datasets/2021/clinvar_2021-01-10.vcf.gz clinvar_2021_parquet/
 python 1_parse_vcf_cyvcf2.py data/raw/datasets/2020/clinvar_2020-01-06.vcf.gz clinvar_2020_parquet/
 ```
+
+After dividing the data, run the MASCARA model:
+```bash
+python mascara_model.py
+```
+PCA alone, despite being used for continuous variables, was used on the latest dataset (with categorical features). The output was, as expected, not very interpretable (see `results/pca_latest`, the results are not worth even looking at). I then switched to using MCA, which is a dimensionality reduction technique for categorical data. After applying MCA, I then applied LDA to the resulting principal coordinates to attempt to model the difference between the years:
+
+<p align="center">
+  <img src="/results/mca_latest/lda_on_mca.png" alt="Pipeline" width="50%"/>
+</p>
+
+Note: the above results only apply to the latest dataset. I then moved on to implementing MASCARA, which is a two-stage process that involves decomposing the data according to the experimental design using ANOVA-Simultaneous Component Analysis (ASCA) and then applying PCA to the residuals from the first stage: 
+
+<p align="center">
+  <img src="results/mascara/explained_variance.png" alt="PCA on Residuals" width="400" />
+  <img src="results/mascara/scores_by_year.png" alt="Scores by year projected onto PC" width="400" />
+  <img src="results/mascara/top_loadings.png" alt="Top loadings for PC1 and PC2" width="400" />
+</p>
