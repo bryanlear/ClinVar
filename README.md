@@ -50,7 +50,6 @@ Download two different snapshots of the ClinVar VCF data for multiple timestamps
     curl -o clinvar_2025-01-06.vcf.gz https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2025/clinvar_20250601.vcf.gz
     curl -o clinvar_2025-01-06.vcf.gz.tbi https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2025/clinvar_20250601.vcf.gz.tbi
     ```  
-    
 -   **Version 2024:**
     ```bash
     curl -o clinvar_2024-01-07.vcf.gz https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/archive_2.0/2024/clinvar_20240107.vcf.gz
@@ -102,7 +101,11 @@ PCA alone, despite being used for continuous variables, was used on the latest d
 Note: the above results only apply to the latest dataset. I then moved on to implementing MASCARA, which is a two-stage process that involves decomposing the data according to the experimental design using ANOVA-Simultaneous Component Analysis (ASCA) and then applying PCA to the residuals from the first stage: 
 
 <p align="center">
-  <img src="results/mascara/explained_variance.png" alt="PCA on Residuals" width="400" />
-  <img src="results/mascara/scores_by_year.png" alt="Scores by year projected onto PC" width="400" />
-  <img src="results/mascara/top_loadings.png" alt="Top loadings for PC1 and PC2" width="400" />
+  <img src="results/mascara/explained_variance.png" alt="PCA on Residuals" width="500" />
+  <img src="results/mascara/scores_by_year.png" alt="Scores by year projected onto PC" width="500" />
+  <img src="results/mascara/top_loadings.png" alt="Top loadings for PC1 and PC2" width="500" />
+</p>
+
+<p align="center">
+  <img src="/results/mascara/umap_density_by_year.png" alt="Pipeline" width="70%"/>
 </p>
