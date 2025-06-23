@@ -106,20 +106,40 @@ Note: the above results only apply to the latest dataset. I then moved on to imp
   <img src="results/mascara/top_loadings.png" alt="Top loadings for PC1 and PC2" width="500" />
 </p>
 
-### FOR_23_JUNE_END_of_DAY
-***GOAL***: Track reclassification from 2020 to 2025 
+*** TEST 1: Tracking Variant Reclassification Dynamics (2020-2025)***
 
-*** Feature Engineering ***
+A master table was created by parsing over the yearly clinvar files and aggregating them into a single DataFrame. It is indexed by the unique variant identifier and contains all relevant features. The DataFrame is saved to `results/reclassification/master_longitudinal_table.parquet`.
 
-1. Define a unique variant identifier (C-Position-RefAllele). where C = chromosome
-2. Create Master Longitudinal Table by oarsing over the yearly clinvar files and aggregate them into a single DataFrame. It should be indexed by the unique variant identifier and contain all relevant features
-3. Generate high dimensional feature vector with MASCARA for every variant (to determine). Baseline will be 2020 (I should experiment with multiple embedding methods)
-4. Baseline UMAP model is trained with only 2020 variant feature data --> Obtain foundational 2D embedding space. The model is saved to use it at a later stage. 
-5. Create baseline UMAP Plot with 2020 data and color each data point accordint to clinicalSignificance_2020 label (benign, VUS, whatever)
+Fot test 1, the master DataFrame was built using only 2020 (base) and 2025 (latest) data.  `4_reclassification_tracker.py` was ran on a RTX6000 Ada, 28 CPUs, 128GB RAM and 48 VRAM instance. Also, the UMAP coordinated from `3_mascara_umap.py` (this is not the right way) were used to plot the reclassification results in `5_UMAP_plot.py`:
+
+Table with variant reclassified 2020 vs. 2025 (only a few are shown):
+
+<div style="border: 1px solid black; padding: 10px;">
+
+| Variant    | Clinical Significance (2020) | Review Status (2020)          | Gene (2020) | Variant Type (2020) | Clinical Significance (2025) | Review Status (2025)             | Gene (2025) | Variant Type (2025) |
+|:-----------|:-----------------------------|:------------------------------|:------------|:--------------------|:-----------------------------|:---------------------------------|:------------|:--------------------|
+| 1_930348_G | Likely_benign                | criteria_provided_single_submitter | SAMD11      | missense_variant    | Likely_benign                | criteria_provided_multiple_submitters_no_conflicts | SAMD11      | missense_variant    |
+| 1_930388_GCCTCCCAGGAGCGTGACCGGTCCCAGCCATGAGCCCC | Benign                       | criteria_provided_single_submitter | SAMD11      | splice_donor_variant | Benign                       | criteria_provided_single_submitter | SAMD11      | splice_donor_variant |
+| 1_934101_G | Benign                       | criteria_provided_single_submitter | SAMD11      | missense_variant    | Benign                       | criteria_provided_single_submitter | SAMD11      | missense_variant    |
+| 1_934103_G | Benign                       | criteria_provided_single_submitter | SAMD11      | missense_variant    | Uncertain_significance       | criteria_provided_single_submitter | SAMD11      | missense_variant    |
+| 1_945584_C | Benign                       | criteria_provided_single_submitter | NOC2L       | synonymous_variant  | Benign                       | criteria_provided_single_submitter | NOC2L       | synonymous_variant  |
+| 1_953039_G | Benign                       | criteria_provided_single_submitter | NOC2L       | synonymous_variant  | Benign                       | criteria_provided_single_submitter | NOC2L       | synonymous_variant  |
+| 1_953059_A | Benign                       | criteria_provided_single_submitter | NOC2L       | intron_variant      | Benign                       | criteria_provided_single_submitter | NOC2L       | intron_variant      |
+| 1_954070_C | Benign                       | criteria_provided_single_submitter | NOC2L       | synonymous_variant  | Benign                       | criteria_provided_single_submitter | NOC2L       | synonymous_variant  |
+| 1_955013_G | Likely_benign                | criteria_provided_single_submitter | NOC2L       | missense_variant    | Likely_benign                | criteria_provided_single_submitter | NOC2L       | 
+
+</div>
+
+<p align="center">
+  <img src="results/reclassification/visualizations/umap_basic.png" alt="UMAP plot of reclassification" width="600" />
+  <img src="results/reclassification/visualizations/umap_density.png.png" alt="Density plot of reclassification" width="600" />
+</p>
+
+Density Plot: ***Uniform Manifold Approximation and Projection (UMAP)*** is a dimensionality reduction technique that is used to visualize high-dimensional data in a lower-dimensional space. It is a non-linear technique that is able to preserve the local structure of the data, meaning that points that are close to each other in the high-dimensional space will also be close to each other in the lower-dimensional space.
+Yellowish gradient indicates variants clustered in that UMAP space. Sort of like a hotspot where variants with similar characteristics are grouped together (similar features, which ones?👀). The contour lines connect points of equal density. The closer the contour lines, the steeper the density gradient meaning that the rate of change of density is higher in that area. See ([Topolgical Geometry](https://en.wikipedia.org/wiki/Topological_geometry)) and [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection) for interesting reads.
+
+Next step for TEST 1 is to explore the density regions and look at a handful of variants, see the type of features they may have in common
 
 *** Detect and Categorize Reclassification Events ***
 
 
-<p align="center">
-  <img src="/results/mascara/umap/umap_density_by_year.png" alt="UMAP Density Plot" width="100%"/>
-</p>
