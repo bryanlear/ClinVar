@@ -107,5 +107,5 @@ Note: the above results only apply to the latest dataset. I then moved on to imp
 </p>
 
 <p align="center">
-  <img src="/results/mascara/umap_density_by_year.png" alt="Pipeline" width="70%"/>
+  <img src="/results/mascara/umap/umap_density_by_year.png" alt="UMAP Density Plot" width="70%"/>
 </p>
