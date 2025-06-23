@@ -1,6 +1,8 @@
 # --- Directories --- 
 
-/raw
+data/raw/datasets/
+data/processed/
+
 
 
 # --- Files ----
