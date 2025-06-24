@@ -16,3 +16,5 @@ data/fitted_models
 *.json
 *.pkl
 .pkl
+*.csv
+.csv

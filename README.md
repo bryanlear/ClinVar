@@ -4,7 +4,7 @@ Primary objective: To compare different temporal snapshots of the dataset (e.g.,
 
 ## Project Stages & Goals
 
-### Stage 1: Data Ingestion & Processing Pipeline [x]
+### Stage 1: Data Ingestion & Processing Pipeline [✓]
 -   **Objective:** Establish a stable and memory-efficient pipeline to process large ClinVar VCF releases into a structured Apache Parquet format.
 -   **Key Challenge & Resolution:** Initial attempt to parse ClinVar XML release failed due to insurmountable memory (OOM) errors on a 60 GB RAM instance. Had to pivot to using standard VCF format and `cyvcf2` library.
 
@@ -92,27 +92,24 @@ After dividing the data, run the MASCARA model:
 ```bash
 python mascara_model.py
 ```
-PCA alone, despite being used for continuous variables, was used on the latest dataset (with categorical features). The output was, as expected, not very interpretable (see `results/pca_latest`, the results are not worth even looking at). I then switched to using MCA, which is a dimensionality reduction technique for categorical data. AFter MCA, I applied LDA to the resulting principal coordinates to attempt to discern any pattern among the classification labels for the year:
+--- 
 
-<p align="center">
-  <img src="/results/mca_latest/lda_on_mca.png" alt="Pipeline" width="50%"/>
-</p>
+*** Practice *** 
 
-Note: the above results only apply to the latest dataset. I then moved on to implementing MASCARA, which is a two-stage process that involves decomposing the data according to the experimental design using ANOVA-Simultaneous Component Analysis (ASCA) and then applying PCA to the residuals from the first stage: 
+PCA alone, despite being used for continuous variables, was used on the latest dataset (with categorical features). The output was, as expected, not very interpretable (see `results/pca_latest` and the results are not even worth looking at). I switched to using MCA, which is a dimensionality reduction technique for categorical data. After it, I applied LDA to the resulting PCs to attempt to find PCs that would maximize the separation between the features.
+Next, I moved on to implementing MASCARA, which is a two-stage process that involves decomposing the data according to the experimental design using ANOVA-Simultaneous Component Analysis (ASCA) and then applying PCA to the residuals from the first stage `results/mascara`.
 
-<p align="center">
-  <img src="results/mascara/explained_variance.png" alt="PCA on Residuals" width="500" />
-  <img src="results/mascara/scores_by_year.png" alt="Scores by year projected onto PC" width="500" />
-  <img src="results/mascara/top_loadings.png" alt="Top loadings for PC1 and PC2" width="500" />
-</p>
+--- 
 
 *** TEST 1: Tracking Variant Reclassification Dynamics (2020-2025)***
 
 A master table was created by parsing over the yearly clinvar files and aggregating them into a single DataFrame. It is indexed by the unique variant identifier and contains all relevant features. The DataFrame is saved to `results/reclassification/master_longitudinal_table.parquet`.
 
-Fot test 1, the master DataFrame was built using only 2020 (base) and 2025 (latest) data.  `4_reclassification_tracker.py` was ran on a RTX6000 Ada, 28 CPUs, 128GB RAM and 48 VRAM instance. Also, the UMAP coordinated from `3_mascara_umap.py` (this is not the right way) were used to plot the reclassification results in `5_UMAP_plot.py`:
+For test 1, the master DataFrame was built using only 2020 (base) and 2025 (latest) data.  `4_reclassification_tracker.py` was ran on a RTX6000 Ada, 28 CPUs, 128GB RAM and 48 VRAM instance. Also, the UMAP coordinates produced by `3_mascara_umap.py` were used to plot the reclassification results in `5_UMAP_plot.py` (this is not the right way):
 
-Table with variant reclassified 2020 vs. 2025 (only a few are shown):
+--- 
+
+Table with variant reclassified 2020 vs. 2025 (a few are shown) ``results/reclassification/master_longitudinal_table.parquet`:
 
 <div style="border: 1px solid black; padding: 10px;">
 
