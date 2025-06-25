@@ -99,9 +99,6 @@ python mascara_model.py
 PCA alone, despite being used for continuous variables, was used on the latest dataset (with categorical features). The output was, as expected, not very interpretable (see `results/pca_latest` and the results are not even worth looking at). I switched to using MCA, which is a dimensionality reduction technique for categorical data. After it, I applied LDA to the resulting PCs to attempt to find PCs that would maximize the separation between the features.
 Next, I moved on to implementing MASCARA, which is a two-stage process that involves decomposing the data according to the experimental design using ANOVA-Simultaneous Component Analysis (ASCA) and then applying PCA to the residuals from the first stage `results/mascara`.
 
---- 
-
-
 ---
 
 *** TEST 1: Tracking Variant Reclassification Dynamics (2020-2025)***
@@ -151,17 +148,17 @@ Yellowish gradient indicates variants clustered in that UMAP space. Sort of like
   - Changed: 169,722 (29.6%)
   - Unchanged: 403,624 (70.4%)
 
-To simplify the problem, i bundled the ClinicalSignificance labels into 6 categories:
+To simplify the problem, I bundled the ClinicalSignificance labels into 8 categories:
 
 <div style="border: 1px solid black; padding: 10px;">
-    **Pathogenic** - includes "Pathogenic" and similar<br>
-    **Likely Pathogenic** - specifically "Likely pathogenic"<br>
-    **Benign** - includes "Benign" and similars<br>
-    **Likely Benign** - specifically "Likely benign"<br>
-    **VUS** - Variants of Uncertain Significance<br>
-    **Conflicting** - Conflicting interpretations<br>
-    **Other** - Everything else that is not above<br>
-    **Unknown** - Missing or empty values
+    <strong>Pathogenic</strong> - includes "Pathogenic" and similar<br>
+    <strong>Likely Pathogenic</strong> - specifically "Likely pathogenic"<br>
+    <strong>Benign</strong> - includes "Benign" and similars<br>
+    <strong>Likely Benign</strong> - specifically "Likely benign"<br>
+    <strong>VUS</strong> - Variants of Uncertain Significance<br>
+    <strong>Conflicting</strong> - Conflicting interpretations<br>
+    <strong>Other</strong> - Everything else that is not above<br>
+    <strong>Unknown</strong> - Missing or empty values
 </div>
 
 ---

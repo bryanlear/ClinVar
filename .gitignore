@@ -18,3 +18,4 @@ data/fitted_models
 .pkl
 *.csv
 .csv
+*.parquet
