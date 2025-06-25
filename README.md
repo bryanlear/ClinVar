@@ -101,10 +101,8 @@ Next, I moved on to implementing MASCARA, which is a two-stage process that invo
 
 --- 
 
-# Summary for ALL datasets 2020 → 2025:
-  **Total variants**: 573,346
-  **Changed**: 169,722 (29.6%)
-  **Unchanged**: 403,624 (70.4%)
+
+---
 
 *** TEST 1: Tracking Variant Reclassification Dynamics (2020-2025)***
 
@@ -141,9 +139,51 @@ Table with variant reclassified 2020 vs. 2025 (a few are shown) ``results/reclas
 ---
 
 Density Plot: ***Uniform Manifold Approximation and Projection (UMAP)*** is a dimensionality reduction technique that is used to visualize high-dimensional data in a lower-dimensional space. It is a non-linear technique that is able to preserve the local structure of the data, meaning that points that are close to each other in the high-dimensional space will also be close to each other in the lower-dimensional space.
-Yellowish gradient indicates variants clustered in that UMAP space. Sort of like a hotspot where variants with similar characteristics are grouped together (similar features, which ones?👀). The contour lines connect points of equal density. The closer the contour lines, the steeper the density gradient meaning that the rate of change of density is higher in that area. See ([Topolgical Geometry](https://en.wikipedia.org/wiki/Topological_geometry)) and [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection).
+Yellowish gradient indicates variants clustered in that UMAP space. Sort of like a hotspot where variants with similar characteristics are grouped together (similar features). The contour lines connect points of equal density. The closer the contour lines, the steeper the density gradient meaning that the rate of change of density is higher in that area. See ([Topolgical Geometry](https://en.wikipedia.org/wiki/Topological_geometry)) and [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection).
  
+ ---
+
+ A master DataFrame was built using *all available years:*
+
+**Summary for ALL datasets 2020 → 2025:**
+
+  - Total variants: 573,346
+  - Changed: 169,722 (29.6%)
+  - Unchanged: 403,624 (70.4%)
+
+To simplify the problem, i bundled the ClinicalSignificance labels into 6 categories:
+
+<div style="border: 1px solid black; padding: 10px;">
+    **Pathogenic** - includes "Pathogenic" and similar<br>
+    **Likely Pathogenic** - specifically "Likely pathogenic"<br>
+    **Benign** - includes "Benign" and similars<br>
+    **Likely Benign** - specifically "Likely benign"<br>
+    **VUS** - Variants of Uncertain Significance<br>
+    **Conflicting** - Conflicting interpretations<br>
+    **Other** - Everything else that is not above<br>
+    **Unknown** - Missing or empty values
+</div>
+
+---
+
+After this, the dataset was divided into *changed* and *unchanged* subsets:
 
 
+<div style="border: 1px solid black; padding: 10px;">
+  **Summary for changed variants (2020 → 2025):**
+  <ul>
+    <li>VUS → Pathogenic: 40,486 variants</li>
+    <li>Benign → Pathogenic: 15,630 variants</li>
+    <li>VUS → Benign: 10,451 variants</li>
+    <li>Pathogenic → VUS: 7,046 variants</li>
+    <li>Pathogenic → Benign: 7,007 variants</li>
+    <li>Benign → VUS: 5,593 variants</li>
+    <li>Other → Pathogenic: 1,915 variants</li>
+    <li>Other → VUS: 1,475 variants</li>
+    <li>Other → Benign: 922 variants</li>
+    <li>Pathogenic → Other: 870 variants</li>
+  </ul>
+</div>
 
+---
 
