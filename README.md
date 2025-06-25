@@ -101,6 +101,11 @@ Next, I moved on to implementing MASCARA, which is a two-stage process that invo
 
 --- 
 
+# Summary for ALL datasets 2020 → 2025:
+  **Total variants**: 573,346
+  **Changed**: 169,722 (29.6%)
+  **Unchanged**: 403,624 (70.4%)
+
 *** TEST 1: Tracking Variant Reclassification Dynamics (2020-2025)***
 
 A master table was created by parsing over the yearly clinvar files and aggregating them into a single DataFrame. It is indexed by the unique variant identifier and contains all relevant features. The DataFrame is saved to `results/reclassification/master_longitudinal_table.parquet`.
