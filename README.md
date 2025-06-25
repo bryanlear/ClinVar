@@ -148,15 +148,12 @@ Yellowish gradient indicates variants clustered in that UMAP space. Sort of like
   - Changed: 169,722 (29.6%)
   - Unchanged: 403,624 (70.4%)
 
-To simplify the problem, I bundled the ClinicalSignificance labels into 8 categories:
+To simplify the problem, I bundled the ClinicalSignificance labels into ***4*** main categories (a 5th for missing values):
 
 <div style="border: 1px solid black; padding: 10px;">
     <strong>Pathogenic</strong> - includes "Pathogenic" and similar<br>
-    <strong>Likely Pathogenic</strong> - specifically "Likely pathogenic"<br>
     <strong>Benign</strong> - includes "Benign" and similars<br>
-    <strong>Likely Benign</strong> - specifically "Likely benign"<br>
     <strong>VUS</strong> - Variants of Uncertain Significance<br>
-    <strong>Conflicting</strong> - Conflicting interpretations<br>
     <strong>Other</strong> - Everything else that is not above<br>
     <strong>Unknown</strong> - Missing or empty values
 </div>
@@ -165,9 +162,8 @@ To simplify the problem, I bundled the ClinicalSignificance labels into 8 catego
 
 After this, the dataset was divided into *changed* and *unchanged* subsets:
 
-
+**Summary for changed variants (2020 → 2025):**
 <div style="border: 1px solid black; padding: 10px;">
-  **Summary for changed variants (2020 → 2025):**
   <ul>
     <li>VUS → Pathogenic: 40,486 variants</li>
     <li>Benign → Pathogenic: 15,630 variants</li>
