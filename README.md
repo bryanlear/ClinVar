@@ -158,8 +158,6 @@ To simplify the problem, I bundled the ClinicalSignificance labels into ***4*** 
     <strong>Unknown</strong> - Missing or empty values
 </div>
 
----
-
 After this, the dataset was divided into *changed* and *unchanged* subsets:
 
 **Summary for changed variants (2020 → 2025):**
@@ -242,5 +240,11 @@ I decided to look into an appropriate method for encoding the data before runnin
 
 </body>
 </html>
+
+</div>
+<p align="center">
+  <img src="results/embedding_visualizations/lstm_reclassification_heatmap.png" alt="Heat map of reclassification" width="600" />
+</p>
+
 
 ---
