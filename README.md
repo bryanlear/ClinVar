@@ -101,7 +101,7 @@ Next, I moved on to implementing MASCARA, which is a two-stage process that invo
 
 ---
 
-*** TEST 1: Tracking Variant Reclassification Dynamics (2020-2025)***
+*** TEST 1***
 
 A master table was created by parsing over the yearly clinvar files and aggregating them into a single DataFrame. It is indexed by the unique variant identifier and contains all relevant features. The DataFrame is saved to `results/reclassification/master_longitudinal_table.parquet`.
 
@@ -180,3 +180,67 @@ After this, the dataset was divided into *changed* and *unchanged* subsets:
 
 ---
 
+***TEST 2***
+
+I decided to look into an appropriate method for encoding the data before running UMAP. 
+***Temporal Embeddings:*** Vector representation of an entity that changes overtime. This is key because the classification of entities (variants) changes as more data comes in. Such embedding would capture the update (maybe).
+***LSTM:*** Due to the vanishing gradient problem, a RNN will struggle to connect info over long sequences, its memory decays fast. LSTM gives it a longer memory which allows it to learn long-term dependencies.
+
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Model Config & Data Summary</title>
+</head>
+<body>
+
+<h2>Label Encoding</h2>
+<ul>
+  <li><strong>Pathogenic:</strong> 2</li>
+  <li><strong>Benign:</strong> 0</li>
+  <li><strong>VUS (Variant of Unknown Significance):</strong> 4</li>
+  <li><strong>Other:</strong> 1</li>
+  <li><strong>Unknown:</strong> 3</li>
+</ul>
+
+<h2>Model Architecture</h2>
+<ul>
+  <li><strong>Vocabulary size:</strong> 5 (corresponds to the number of unique labels)</li>
+  <li><strong>Embedding dimension:</strong> 64 (size of the vector representation for each label)</li>
+  <li><strong>Hidden dimension:</strong> 128 (size of the hidden layers in the model)</li>
+  <li><strong>Number of layers:</strong> 2 (number of recurrent or feed-forward layers)</li>
+  <li><strong>Number of classes:</strong> 5 (the total number of distinct variant classifications the model predicts)</li>
+</ul>
+
+<h2>Data Summary</h2>
+<ul>
+  <li><strong>Training samples:</strong> 73933</li>
+  <li><strong>Validation samples:</strong> 18484</li>
+</ul>
+
+</body>
+
+</html>
+
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Model Performance Metrics</title>
+</head>
+<body>
+
+<h2>Model Performance Summary</h2>
+<ul>
+  <li><strong>Training accuracy:</strong> 0.9227</li>
+  <li><strong>Validation accuracy:</strong> 0.9200</li>
+  <li><strong>Embedding dimension:</strong> 128</li>
+  <li><strong>Variants processed:</strong> 92417</li>
+</ul>
+
+</body>
+</html>
+
+---
