@@ -1,9 +1,8 @@
 # --- Directories --- 
 
-data/raw/datasets/
-data/processed/
-data/fitted_models
-
+old_strategy/data/processed
+old_strategy/data/fitted_models
+old_strategy/data/raw
 
 
 # --- Files ----
@@ -21,3 +20,5 @@ data/fitted_models
 *.parquet
 *.npz
 *.pth
+.env
+*.env
