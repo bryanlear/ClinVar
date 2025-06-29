@@ -24,7 +24,7 @@ import json
 def get_available_files_from_ftp(base_url: str, pattern: str) -> List[Dict]:
     """
     Get list of available files from FTP directory.
-    Note: This is a simplified version - for production use, consider using ftplib.
+    Note: Use ftplib. This is initially for testing
     """
     try:
         files = []
@@ -65,7 +65,7 @@ def get_available_files_from_ftp(base_url: str, pattern: str) -> List[Dict]:
 
 
 def check_download_status(download_dir: str) -> Dict:
-    """Check the status of downloaded files."""
+    """Check status of downloaded files."""
     download_path = Path(download_dir)
 
     status = {
@@ -277,17 +277,17 @@ def main():
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
 
     status_parser = subparsers.add_parser('status', help='Check download status')
-    status_parser.add_argument('--download-dir', default='./clinvar_vcv_releases',
+    status_parser.add_argument('--download-dir', default='../../data/raw/clinvar_vcv_releases',
                               help='Download directory to check')
 
     validate_parser = subparsers.add_parser('validate', help='Validate downloaded files')
-    validate_parser.add_argument('--download-dir', default='./clinvar_vcv_releases',
+    validate_parser.add_argument('--download-dir', default='../../data/raw/clinvar_vcv_releases',
                                 help='Download directory to validate')
     validate_parser.add_argument('--check-md5', action='store_true',
                                 help='Also verify MD5 checksums')
 
     report_parser = subparsers.add_parser('report', help='Generate download report')
-    report_parser.add_argument('--download-dir', default='./clinvar_vcv_releases',
+    report_parser.add_argument('--download-dir', default='../../data/raw/clinvar_vcv_releases',
                               help='Download directory to report on')
     report_parser.add_argument('--output', help='Output file for report')
 

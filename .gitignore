@@ -22,3 +22,7 @@ old_strategy/data/raw
 *.pth
 .env
 *.env
+
+setup.py
+AlphaGenome_testing.py
+tools/

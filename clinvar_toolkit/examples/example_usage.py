@@ -213,7 +213,7 @@ def main():
 
     parser.add_argument(
         '--download-dir',
-        default='./clinvar_vcv_releases',
+        default='../../data/raw/clinvar_vcv_releases',
         help='Directory containing downloaded files'
     )
 

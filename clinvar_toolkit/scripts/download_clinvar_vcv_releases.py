@@ -38,7 +38,7 @@ NEW_FORMAT_START = (2024, 2)
 NEW_FORMAT_END = (2025, 6)
 
 
-def setup_logging(log_file: str = "clinvar_download.log") -> logging.Logger:
+def setup_logging(log_file: str = "../../logs/clinvar_download.log") -> logging.Logger:
     """Set up logging configuration."""
     logging.basicConfig(
         level=logging.INFO,
@@ -249,8 +249,8 @@ Examples:
 
     parser.add_argument(
         "--download-dir",
-        default="./clinvar_vcv_releases",
-        help="Directory to download files to (default: ./clinvar_vcv_releases)"
+        default="../../data/raw/clinvar_vcv_releases",
+        help="Directory to download files to (default: ../../data/raw/clinvar_vcv_releases)"
     )
 
     parser.add_argument(

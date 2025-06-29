@@ -1,4 +1,47 @@
-# Strategy has changed and all previous data/scripts/results have been stored in the `old_strategy` directory
+# ClinVar Analysis Project
+
+A comprehensive toolkit for downloading, processing, and analyzing ClinVar variant classification data to track reclassifications over time using LSTM-based models.
+
+## Project Structure
+
+```
+ClinVar-1/
+├── clinvar_toolkit/          # ClinVar data acquisition toolkit
+│   ├── scripts/              # Download and utility scripts
+│   ├── config/               # Configuration files
+│   ├── examples/             # Usage examples
+│   └── docs/                 # Documentation
+├── data/                     # Data storage
+│   ├── raw/                  # Raw downloaded ClinVar XML files
+│   └── processed/            # Processed analysis data
+├── logs/                     # Log files from operations
+├── tools/                    # Additional analysis tools
+├── results/                  # Analysis results and outputs
+├── old_strategy/             # Previous analysis approach (archived)
+└── setup.py                  # Project setup script
+```
+
+## Quick Start
+
+### 1. Setup Project
+```bash
+python setup.py
+```
+
+### 2. Download ClinVar Data
+```bash
+cd clinvar_toolkit/scripts
+python download_clinvar_vcv_releases.py
+```
+
+### 3. Check Download Status
+```bash
+python clinvar_download_utils.py status
+```
+
+## Strategy Evolution
+
+**Note**: The analysis strategy has evolved. All previous data, scripts, and results have been archived in the `old_strategy` directory.
 
 <!DOCTYPE html>
 <html>
@@ -95,234 +138,3 @@ LSTM-Based Model Workflow for Variant Reclassification
 </body>
 </html>
 
-# 1. Data Ingestion and Structuring
-
-## ClinVar VCV Release Downloader
-
-Systematically downloadClinVar VCV release files from NCBI's FTP server. The script handles both the old format (`ClinVarVariationRelease`) and new format (`ClinVarVCVRelease`) files chronologically
-
-## Overview
-
-ClinVar provides monthly XML releases in two formats:
-- **Old Format**: `ClinVarVariationRelease_YYYY-MM.xml.gz` (2023-01 to 2025-06)
-- **New Format**: `ClinVarVCVRelease_YYYY-MM.xml.gz` (2024-02 to present)
-
-This toolkit downloads files chronologically to build a complete historical dataset.
-
-## Files
-
-- `download_clinvar_vcv_releases.py` - Main download script
-- `clinvar_download_utils.py` - Utility functions for status checking and validation
-- `clinvar_download_config.py` - Configuration settings and file metadata
-
-## Features
-
-- ✅ **Chronological Downloads**: Processes files from earliest to latest
-- ✅ **Resume Capability**: Skips already downloaded files
-- ✅ **MD5 Verification**: Validates file integrity using checksums
-- ✅ **Progress Tracking**: Real-time download progress and logging
-- ✅ **Error Handling**: Retry logic with exponential backoff
-- ✅ **Status Reporting**: Check download status and generate reports
-- ✅ **File Validation**: Verify downloaded files for corruption
-
-## Requirements
-
-```bash
-pip install requests
-```
-
-## Usage
-
-### 1. Basic Download
-
-Download all available ClinVar VCV release files:
-
-```bash
-python download_clinvar_vcv_releases.py
-```
-
-This will:
-- Create `./clinvar_vcv_releases/` directory
-- Download old format files to `./clinvar_vcv_releases/old_format/`
-- Download new format files to `./clinvar_vcv_releases/new_format/`
-- Skip files that already exist
-- Verify MD5 checksums
-- Log progress to `clinvar_download.log`
-
-### 2. Custom Download Directory
-
-```bash
-python download_clinvar_vcv_releases.py --download-dir /path/to/your/data
-```
-
-### 3. Force Re-download
-
-```bash
-python download_clinvar_vcv_releases.py --no-skip-existing
-```
-
-### 4. Skip Checksum Verification
-
-```bash
-python download_clinvar_vcv_releases.py --no-verify-checksums
-```
-
-## Utility Commands
-
-### Check Download Status
-
-```bash
-python clinvar_download_utils.py status --download-dir ./clinvar_vcv_releases
-```
-
-### Validate Downloaded Files
-
-```bash
-python clinvar_download_utils.py validate --download-dir ./clinvar_vcv_releases
-```
-
-### Validate with MD5 Checking
-
-```bash
-python clinvar_download_utils.py validate --download-dir ./clinvar_vcv_releases --check-md5
-```
-
-### Generate Download Report
-
-```bash
-python clinvar_download_utils.py report --download-dir ./clinvar_vcv_releases
-```
-
-### Save Report to File
-
-```bash
-python clinvar_download_utils.py report --download-dir ./clinvar_vcv_releases --output report.txt
-```
-
-## Configuration
-
-Details:
-
-```bash
-python clinvar_download_config.py
-```
-
-This shows:
-- Total expected download size (~150+ GB)
-- Number of files to download
-- Date ranges for each format
-- Expected file sizes
-
-## Directory Structure
-
-```
-clinvar_vcv_releases/
-├── old_format/
-│   ├── ClinVarVariationRelease_2023-01.xml.gz
-│   ├── ClinVarVariationRelease_2023-02.xml.gz
-│   └── ... (through 2025-06)
-├── new_format/
-│   ├── ClinVarVCVRelease_2024-02.xml.gz
-│   ├── ClinVarVCVRelease_2024-03.xml.gz
-│   └── ... (through 2025-06)
-└── clinvar_download.log
-```
-
-## File Timeline
-
-### Old Format (ClinVarVariationRelease)
-- **Start**: January 2023 (`2023-01`)
-- **End**: June 2025 (`2025-06`)
-- **Total Files**: 30
-- **Size Range**: ~2.2GB to ~4.5GB per file
-
-### New Format (ClinVarVCVRelease)
-- **Start**: February 2024 (`2024-02`)
-- **End**: June 2025 (`2025-06`)
-- **Total Files**: 17
-- **Size Range**: ~3.2GB to ~4.6GB per file
-
-## Processing Workflow
-
-For building a complete historical dataset:
-
-1. **Process Old Format First**: Start with `ClinVarVariationRelease_2023-01.xml.gz`
-2. **Continue Chronologically**: Process through `ClinVarVariationRelease_2025-06.xml.gz`
-3. **Switch to New Format**: Begin with `ClinVarVCVRelease_2024-02.xml.gz`
-4. **Process to Present**: Continue through the latest available file
-
-## Error Handling
-
-The scripts include robust error handling:
-
-- **Network Issues**: Automatic retry with exponential backoff
-- **Partial Downloads**: Resume from where it left off
-- **Corrupted Files**: MD5 verification catches corruption
-- **Missing Files**: Clear reporting of what's missing
-
-## Logging
-
-All operations are logged to `clinvar_download.log`:
-
-```
-2025-06-29 10:30:15 - INFO - Starting ClinVar VCV release download
-2025-06-29 10:30:16 - INFO - Downloading ClinVarVariationRelease_2023-01.xml.gz (attempt 1/3)
-2025-06-29 10:32:45 - INFO - ✓ Downloaded ClinVarVariationRelease_2023-01.xml.gz (2185 MB)
-2025-06-29 10:32:46 - INFO - ✓ MD5 checksum verified for ClinVarVariationRelease_2023-01.xml.gz
-```
-
-## Storage Requirements
-
-- **Total Size**: ~150+ GB for complete dataset
-- **Old Format**: ~95 GB (30 files)
-- **New Format**: ~65 GB (17 files)
-- **Recommended**: 200+ GB free space but I'd say 1 TB 🤣
-
-## Best
-
-1. **Verify Integrity**: Always run validation after downloads
-
-## Troubleshooting
-
-### Download Fails
-```bash
-# Check network connectivity
-curl -I https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/
-
-# Retry with more verbose logging
-python download_clinvar_vcv_releases.py --no-skip-existing
-```
-
-### Checksum Failures
-```bash
-# Re-download specific files
-rm ./clinvar_vcv_releases/old_format/ClinVarVariationRelease_2023-01.xml.gz
-python download_clinvar_vcv_releases.py
-```
-
-### Disk Space Issues
-```bash
-# Check available space
-df -h
-
-# Clean up partial downloads if needed 
-find ./clinvar_vcv_releases -name "*.xml.gz" -size -1M -delete
-```
-
-## Integration with Analysis Pipelines
-
-Files can be processed with various XML parsing libraries:
-
-```python
-import gzip
-import xml.etree.ElementTree as ET
-#e.g.,
-with gzip.open('clinvar_vcv_releases/new_format/ClinVarVCVRelease_2025-06.xml.gz', 'rt') as f:
-    tree = ET.parse(f)
-    root = tree.getroot()
-    # Process XML content...
-```
-
-## Support
-
-NO support is offered since it's free! 🥱
